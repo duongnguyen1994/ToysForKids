@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ToysForKids.Models.ViewModels.RoleViewModel>
+
+@{
+    ViewBag.Title = "Role Managerment";
+}
+
+<p>
+    <a asp-action="CreateRole"><i class="fas fa-plus-square" style="font-size:200%"></i></a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleName)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @item.RoleName
+                </td>
+                <td>
+                    <a asp-controller="Role" asp-action="EditRole" asp-route-id="@item.RoleId">
+                        <i class="fas fa-user" style="font-size:200%"></i>
+                    </a>
+                    <a href="#" onclick="removeRole('@item.RoleId')">
+                        <i class="fas fa-trash-alt" style="font-size:200%;color:red;"></i>
+                    </a>
+                </td>
+            </tr>
+
+        }
+    </tbody>
+</table>
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+<script>
+        function removeRole(RoleId) {
+            bootbox.confirm({
+                title: "Remove role?",
+                message: "Do you really want to remove this role",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> No'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Yes'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "GET",
+                            url: `/Role/DeleteRole/${RoleId}`,
+                            success: function (result) {
+                                bootbox.alert("Successed!", function () {
+                                    window.location.href = "/Role/Index";
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+</script>
+}
+

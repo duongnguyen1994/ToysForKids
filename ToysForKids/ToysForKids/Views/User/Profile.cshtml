@@ -1,0 +1,62 @@
+﻿@model UserViewModel
+@{ 
+    ViewBag.Title = "Profile";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Profile</title>
+</head>
+<body>
+
+    <div>
+        <h4>UserViewModel</h4>
+        <hr />
+        <dl class="row">
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Fullname)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Fullname)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Email)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Email)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.Address)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.Address)
+            </dd>
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => model.PhoneNumber)
+            </dd>
+        </dl>
+    </div>
+    <div>
+        <a asp-action="EditUser" asp-controller="User" asp-route-id="@Model.UserId" style="text-decoration:none;">
+            <i class="fas fa-user-edit" style="font-size:200%"></i>
+        </a>
+        @if (Model.RoleName == "Admin")
+        {
+            <a asp-action="Index" asp-controller="User">
+                <i class="fas fa-arrow-circle-left" style="font-size:200%"></i>
+            </a>
+        }
+        else
+        {
+            <a asp-action="Index" asp-controller="Home">
+                <i class="fas fa-arrow-circle-left" style="font-size:200%"></i>
+            </a>
+        }
+    </div>
+</body>
+</html>
