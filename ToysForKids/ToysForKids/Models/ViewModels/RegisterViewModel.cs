@@ -8,11 +8,11 @@ namespace ToysForKids.Models.ViewModels
 {
     public class RegisterViewModel
     {
-        [Required]
+        [Required(ErrorMessage ="This field is required")]
         [MaxLength(25)]
         public string Firstname { get; set; }
-        [Required]
-        [MaxLength(25)]
+        [Required(ErrorMessage = "This field is required")]
+        [MaxLength(50)]
         public string Lastname { get; set; }
         [Required]
         [EmailAddress]
@@ -32,6 +32,7 @@ namespace ToysForKids.Models.ViewModels
         [Display(Name ="Confirm Password")]
         [Compare("Password", ErrorMessage = "Password and confirmation password not match.")]
         public string ConfirmPassword { get; set; }
-        public string RoleName { get; set; }
+        [Display(Name ="Role")]
+        public string RoleId { get; set; }
     }
 }

@@ -432,4 +432,10 @@ D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razo
 D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\bin\Debug\netcoreapp3.1\libman.json
 D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\User\Index.cshtml.g.cs
 D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\User\CreateUser.cshtml.g.cs
+D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\User\UserProfile.cshtml.g.cs
+D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\User\EditProfile.cshtml.g.cs
 D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\User\EditUser.cshtml.g.cs
+D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\Account\AccessDenied.cshtml.g.cs
+D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\Account\_AccountLayout.cshtml.g.cs
+D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\Shared\_Navbar.cshtml.g.cs
+D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Debug\netcoreapp3.1\Razor\Views\User\_DashboardLayout.cshtml.g.cs

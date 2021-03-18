@@ -1,13 +1,15 @@
 ﻿@model IEnumerable<ToysForKids.Models.ViewModels.UserViewModel>
 @{
     ViewBag.Title = "Users Managerment";
+    Layout = "_DashboardLayout";
 }
+
 <a asp-controller="User" asp-action="CreateUser">
     <i class="fas fa-user-plus" style="font-size:200%"></i>
 </a>
-<table class="table">
+<table class="table table-bordered table-responsive-lg display" id="users">
     <thead>
-        <tr>
+        <tr class="thead-dark">
             <th>
                 @Html.DisplayNameFor(model => model.Fullname)
             </th>
@@ -33,7 +35,7 @@
         {
             <tr>
                 <td>
-                    @item.Fullname
+                    @Html.DisplayFor(modelItem => item.Fullname)
                 </td>
                 <td>
                     @Html.DisplayFor(modelItem => item.Email)
@@ -48,7 +50,7 @@
                     @Html.DisplayFor(modelItem => item.RoleName)
                 </td>
                 <td>
-                    <a asp-controller="User" asp-action="Profile" asp-route-id="@item.UserId" style="text-decoration:none">
+                    <a asp-controller="User" asp-action="UserProfile" asp-route-id="@item.UserId">
                         <i class="fas fa-id-card" style="font-size:150%"></i>
                     </a>
                     <a href="#" onclick="removeUser('@item.UserId')">
@@ -64,7 +66,7 @@
         function removeUser(UserId) {
             bootbox.confirm({
                 title: "Remove role?",
-                message: "Do you really want to remove this role",
+                message: "Do you really want to remove this user",
                 buttons: {
                     cancel: {
                         label: '<i class="fa fa-times"></i> No'
@@ -81,14 +83,18 @@
                             success: function (result) {
                                 bootbox.alert("Successed!", function () {
                                     window.location.href = "/User/Index";
-                                });                                                             
+                                });
                             }
                         });
                     }
                 }
             });
         }
+        $(document).ready(function () {
+            $('#users').DataTable();
+        });
     </script>
 }
+
 
 

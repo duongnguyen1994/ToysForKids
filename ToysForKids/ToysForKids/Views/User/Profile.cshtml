@@ -1,6 +1,7 @@
 ﻿@model UserViewModel
-@{ 
+@{
     ViewBag.Title = "Profile";
+    Layout = "_DashboardLayout";
 }
 <!DOCTYPE html>
 
@@ -42,21 +43,12 @@
         </dl>
     </div>
     <div>
-        <a asp-action="EditUser" asp-controller="User" asp-route-id="@Model.UserId" style="text-decoration:none;">
+        <a asp-action="EditProfile" asp-controller="User" asp-route-id="@Model.UserId">
             <i class="fas fa-user-edit" style="font-size:200%"></i>
         </a>
-        @if (Model.RoleName == "Admin")
-        {
-            <a asp-action="Index" asp-controller="User">
-                <i class="fas fa-arrow-circle-left" style="font-size:200%"></i>
-            </a>
-        }
-        else
-        {
-            <a asp-action="Index" asp-controller="Home">
-                <i class="fas fa-arrow-circle-left" style="font-size:200%"></i>
-            </a>
-        }
+        <a asp-action="Index" asp-controller="Home">
+            <i class="fas fa-arrow-circle-left" style="font-size:200%"></i>
+        </a>
     </div>
 </body>
 </html>

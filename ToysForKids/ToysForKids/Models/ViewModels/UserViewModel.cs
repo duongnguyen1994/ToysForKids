@@ -14,6 +14,7 @@ namespace ToysForKids.Models.ViewModels
         public string Address { get; set; }
         [Display(Name = "Phone Number")]
         public string PhoneNumber { get; set; }
+        [Display(Name ="Role")]
         public string RoleName { get; set; }
     }
 }

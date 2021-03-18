@@ -13,11 +13,15 @@ namespace ToysForKids.Controllers
     {
         private readonly UserManager<AppIdentityUser> userManager;
         private readonly SignInManager<AppIdentityUser> signInManager;
+        private readonly RoleManager<IdentityRole> roleManager;
 
-        public AccountController(UserManager<AppIdentityUser> userManager, SignInManager<AppIdentityUser> signInManager)
+        public AccountController(UserManager<AppIdentityUser> userManager, 
+                                 SignInManager<AppIdentityUser> signInManager, 
+                                 RoleManager<IdentityRole> roleManager)
         {
             this.userManager = userManager;
             this.signInManager = signInManager;
+            this.roleManager = roleManager;
         }
         [HttpGet]
         public IActionResult Register()
@@ -40,6 +44,8 @@ namespace ToysForKids.Controllers
                 var result = await userManager.CreateAsync(user, model.Password);
                 if(result.Succeeded)
                 {
+                    var role = await roleManager.FindByNameAsync("Customer");
+                    await userManager.AddToRoleAsync(user, role.Name);
                     await signInManager.SignInAsync(user, isPersistent:false);
                     return RedirectToAction("Index", "Home");
                 }
@@ -74,6 +80,10 @@ namespace ToysForKids.Controllers
         {
             await signInManager.SignOutAsync();
             return RedirectToAction("Index", "Home");
+        }
+        public IActionResult AccessDenied()
+        {
+            return View();
         }
     }
 }

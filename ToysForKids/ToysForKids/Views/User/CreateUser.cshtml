@@ -1,8 +1,9 @@
-﻿@model ToysForKids.Models.ViewModels.RegisterViewModel
+﻿@model ToysForKids.Models.ViewModels.UserCreateViewModel
 
 @{
     ViewData["Title"] = "Create User";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var roles = ViewBag.Roles as IQueryable<IdentityRole>;
 }
 
 <h1>CreateUser</h1>
@@ -47,6 +48,20 @@
                 <label asp-for="ConfirmPassword" class="control-label"></label>
                 <input asp-for="ConfirmPassword" class="form-control" />
                 <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="RoleId" class="control-label"></label>
+                <select asp-for="RoleId" class="custom-select">
+                    <option value="">Select role</option>
+                    @if (roles != null & roles.Any())
+                    {
+                        foreach (var item in roles)
+                        {
+                            <option value="@item.Id">@item.Name</option>
+                        }
+                    }
+                </select>
+                <span asp-validation-for="RoleId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input type="submit" value="Create" class="btn btn-primary" />

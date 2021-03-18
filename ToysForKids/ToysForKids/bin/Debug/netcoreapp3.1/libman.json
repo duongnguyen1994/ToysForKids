@@ -8,6 +8,10 @@
       "files": [
         "bootbox.min.js"
       ]
+    },
+    {
+      "library": "datatables.net@1.10.24",
+      "destination": "wwwroot/lib/datatables.net/"
     }
   ]
 }
