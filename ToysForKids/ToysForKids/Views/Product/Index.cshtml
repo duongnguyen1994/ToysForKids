@@ -1,0 +1,77 @@
+﻿@model IEnumerable<ToysForKids.Models.ViewModels.ProductViewModel>
+@inject AppDbContext context
+@{
+    ViewData["Title"] = "All Products";
+    Layout = "_DashBoardLayout";
+    var categories = context.Categories.ToList();
+}
+
+<h1>Index</h1>
+
+<table id="products" class="table table-bordered table-responsive-lg display">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th class="no-sort">
+                @Html.DisplayNameFor(model => model.ProductName)
+            </th>
+            <th>
+                Price
+            </th>
+            <th>
+                Stock
+            </th>
+            <th class="no-sort">
+                @Html.DisplayNameFor(model => model.CategoryId)
+            </th>
+            <th class="no-sort">
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductId)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ProductName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitPrice)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.UnitInStock)
+                </td>
+                <td>
+                    @foreach (var category in categories)
+                    {
+                        if (item.CategoryId == category.CategoryId)
+                        {
+                            <div>@category.CategoryName</div>
+                        }
+                    }
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-controller="Product" asp-route-id="@item.ProductId"><i class="fas fa-edit"></i></a>                  
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#products').DataTable(
+                {
+                    "columnDefs": [{
+                        "targets": 'no-sort',
+                        "orderable": false,
+                        "order": []
+                    }]
+                });
+        });
+    </script>
+}

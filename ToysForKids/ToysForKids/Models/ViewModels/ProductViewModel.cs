@@ -11,20 +11,25 @@ namespace ToysForKids.Models.ViewModels
         public int ProductId { get; set; }
         [Required]
         [MaxLength(100)]
+        [Display(Name = "Product Name")]
         public string ProductName { get; set; }
         [Required]
+        [Display(Name = "Unit Price")]
         public long UnitPrice { get; set; }
         [Required]
+        [Display(Name = "Quantity Per Unit")]
         public long QuantityPerUnit { get; set; }
-        [Required]
+        [Display(Name = "Unit In Stock")]
         public long UnitInStock { get; set; }
-        [Required]
+        [Display(Name = "Unit On Order")]
         public long UnitOnOrder { get; set; }
         [Required]
         [MaxLength(500)]
         public string Description { get; set; }
-        [Required]
         [MaxLength(50)]
         public string FileAvatarName { get; set; }
+        [Required]
+        [Display(Name = "Category")]
+        public int CategoryId { get; set; }
     }
 }

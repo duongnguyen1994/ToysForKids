@@ -15,7 +15,7 @@ namespace ToysForKids.Models.ViewModels
         [DataType(DataType.Password)]
         public string Password { get; set; }
         [Display(Name ="Remember Password")]
-        public bool RemeberPassword { get; set; }
+        public bool RememberPassword { get; set; }
         public string ReturnUrl { get; set; }
     }
 }

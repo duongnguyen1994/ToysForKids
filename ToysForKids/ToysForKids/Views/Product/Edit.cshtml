@@ -1,0 +1,83 @@
+﻿@model ToysForKids.Models.ViewModels.ProductEditViewModel
+@inject ToysForKids.DbContexts.AppDbContext context
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    var categories = context.Categories.ToList();
+}
+
+<h1>Detail</h1>
+
+<hr />
+<form method="post" enctype="multipart/form-data" asp-action="Edit" asp-controller="Product" class="row">
+    <div class="col-4">
+        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+        <input hidden asp-for="ProductId" class="form-control" />
+        <div class="form-group">
+            <label asp-for="ProductName" class="control-label"></label>
+            <input asp-for="ProductName" class="form-control" />
+            <span asp-validation-for="ProductName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="UnitPrice" class="control-label"></label>
+            <input asp-for="UnitPrice" class="form-control" />
+            <span asp-validation-for="UnitPrice" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="QuantityPerUnit" class="control-label"></label>
+            <input asp-for="QuantityPerUnit" class="form-control" />
+            <span asp-validation-for="QuantityPerUnit" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="UnitInStock" class="control-label"></label>
+            <input asp-for="UnitInStock" class="form-control" />
+            <span asp-validation-for="UnitInStock" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="UnitOnOrder" class="control-label"></label>
+            <input asp-for="UnitOnOrder" class="form-control" />
+            <span asp-validation-for="UnitOnOrder" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="Description" class="control-label"></label>
+            <input asp-for="Description" class="form-control" />
+            <span asp-validation-for="Description" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <label asp-for="CategoryId" class="control-label"></label>
+            <select class="custom-select" asp-for="CategoryId">
+                @foreach (var category in categories)
+                {
+                    <option value="@category.CategoryId" selected="@(category.CategoryId==Model.CategoryId)">@category.CategoryName</option>
+                }
+            </select>
+            <span asp-validation-for="CategoryId" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input type="submit" value="Save" class="btn btn-primary" />
+        </div>
+    </div>
+    <div class="col-3">
+        <img id="avatar" src="~/images/Products/@Model.FileAvatarName" style="width:114%" />
+        <div class="custom-file">
+            <input asp-for="FileAvatarName" value="@Model.FileAvatarName" hidden />
+            <input accept="image/*" asp-for="FileUpload" class="custom-file-input">
+            <label class="custom-file-label" for="customFile">Choose file</label>
+            <span asp-validation-for="FileUpload" class="text-danger"></span>
+        </div>
+    </div>
+
+</form>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        $(document).ready(function () {
+            $(".custom-file-input").on("change", function () {
+                var fileName = $(this).val().split("\\").pop();
+                $(this).siblings(".custom-file-label").addClass("selected").html(fileName);
+                $('#avatar').attr('src', window.URL.createObjectURL($(this)[0].files[0]))
+            });
+        });
+    </script>
+}

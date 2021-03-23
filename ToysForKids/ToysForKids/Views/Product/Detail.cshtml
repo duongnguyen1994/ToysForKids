@@ -1,0 +1,82 @@
+﻿@model ToysForKids.Models.ViewModels.ProductViewModel
+@inject ICategoryService categoryService
+@inject IProductService productService
+@{
+    ViewData["Title"] = "Detail";
+    Layout = "_Layout";
+    var categories = categoryService.GetAll();
+    var category = categories.Where(c => c.CategoryId == Model.CategoryId).FirstOrDefault();
+    var products = productService.GetAll().Where(p => p.CategoryId == Model.CategoryId && p.ProductId!=Model.ProductId);
+    var newProducts = new Stack<ProductViewModel>(products);
+}
+
+<section class="anime-details spad">
+    <div class="container">
+        <div class="anime__details__content">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="anime__details__pic set-bg" data-setbg="/images/Products/@Model.FileAvatarName">
+                    </div>
+                </div>
+                <div class="col-lg-9">
+                    <div class="anime__details__text">
+                        <div class="anime__details__title">
+                            <h3>@Model.ProductName</h3>
+                            <span>Description:</span>
+                        </div>
+                        <p>
+                            @Model.Description
+                        </p>
+                        <div class="anime__details__widget">
+                            <div class="row">
+                                <div class="col-lg-6 col-md-6">
+                                    <ul>
+                                        <li><span>Category:</span>@category.CategoryName</li>
+                                        <li><span>Price:</span> @Model.UnitPrice.ToString("n0") VND</li>
+                                        <li><span>Status:</span> @(Model.UnitInStock>0?"In Stock": "Soldout")</li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="anime__details__btn">
+                            <a asp-action="AddToCart" asp-controller="Cart" asp-route-productid="@Model.ProductId" class="follow-btn">Add Cart</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="trending__product">
+            <div class="row">
+                <div class="col-lg-8 col-md-8 col-sm-8">
+                    <div class="section-title">
+                        <h4>you might like</h4>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-4 col-sm-4">
+                    <div class="btn__all">
+                        <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                @for (int i = 0; i < 3; i++)
+                {
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="/images/Products/@newProducts.Peek().FileAvatarName">
+                                <div class="comment"><i class="fa fa-coins"></i>  @newProducts.Peek().UnitPrice.ToString("n0") VND</div>
+                                <a class="btn btn-secondary btn-sm view" href="#"><i class="fa fa-shopping-cart"></i>  ADD CART</a>
+                            </div>
+                            <div class="product__item__text">
+                                <h5><a href="#">@newProducts.Pop().ProductName</a></h5>
+                            </div>
+                        </div>
+                    </div>
+
+                }
+            </div>
+
+        </div>
+    </div>
+</section>
+

@@ -240,6 +240,28 @@ namespace ToysForKids.Migrations
                     b.HasKey("CategoryId");
 
                     b.ToTable("Categories");
+
+                    b.HasData(
+                        new
+                        {
+                            CategoryId = 1,
+                            CategoryName = "Tank"
+                        },
+                        new
+                        {
+                            CategoryId = 2,
+                            CategoryName = "Car"
+                        },
+                        new
+                        {
+                            CategoryId = 3,
+                            CategoryName = "Aircraft"
+                        },
+                        new
+                        {
+                            CategoryId = 4,
+                            CategoryName = "Destroyer"
+                        });
                 });
 
             modelBuilder.Entity("ToysForKids.Models.Entities.Order", b =>
@@ -339,6 +361,56 @@ namespace ToysForKids.Migrations
                     b.HasIndex("CategoryId");
 
                     b.ToTable("Products");
+
+                    b.HasData(
+                        new
+                        {
+                            ProductId = 1,
+                            CategoryId = 1,
+                            Description = "USA-World War 1",
+                            FileAvatarName = "M1917.jpg",
+                            ProductName = "M1917",
+                            QuantityPerUnit = 20L,
+                            UnitInStock = 20L,
+                            UnitOnOrder = 0L,
+                            UnitPrice = 120000L
+                        },
+                        new
+                        {
+                            ProductId = 2,
+                            CategoryId = 1,
+                            Description = "USA-World War 1",
+                            FileAvatarName = "M1918.jpg",
+                            ProductName = "M1918",
+                            QuantityPerUnit = 20L,
+                            UnitInStock = 20L,
+                            UnitOnOrder = 0L,
+                            UnitPrice = 150000L
+                        },
+                        new
+                        {
+                            ProductId = 3,
+                            CategoryId = 2,
+                            Description = "Made in China",
+                            FileAvatarName = "RADCLO_RC_Car.jpg",
+                            ProductName = "RADCLO RC Car 2.4Ghz 1/20",
+                            QuantityPerUnit = 20L,
+                            UnitInStock = 20L,
+                            UnitOnOrder = 0L,
+                            UnitPrice = 120000L
+                        },
+                        new
+                        {
+                            ProductId = 4,
+                            CategoryId = 3,
+                            Description = "USA",
+                            FileAvatarName = "Airforce 1.jpg",
+                            ProductName = "Airforce 1",
+                            QuantityPerUnit = 20L,
+                            UnitInStock = 20L,
+                            UnitOnOrder = 0L,
+                            UnitPrice = 220000L
+                        });
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>

@@ -1,0 +1,152 @@
+﻿@inject UserManager<AppIdentityUser> userManager
+@{
+    var userId = userManager.GetUserId(User);
+    var user = await userManager.FindByIdAsync(userId);
+    var userRole = await userManager.GetRolesAsync(user);
+    var roleName = userRole != null ? string.Join(", ", userRole) : "";
+}
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>@ViewBag.Title</title>
+    <!-- Custom fonts for this template-->
+    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
+          rel="stylesheet">
+    <link href="~/fontawesome-free/css/all.min.css" rel="stylesheet" />
+    <!-- Custom styles for this template-->
+    <link href="~/css/sb-admin-2.min.css" rel="stylesheet" />
+</head>
+<body>
+    <!-- Page Wrapper -->
+    <div id="wrapper">
+
+        <!-- Sidebar -->
+        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+
+            <!-- Sidebar - Brand -->
+            <li class="nav-item active">
+                <a class="sidebar-brand d-flex align-items-center justify-content-center" asp-action="Index" asp-controller="Home">
+                    <div class="sidebar-brand-icon">
+                        <img src="~/images/Logo.png" alt="logo">
+                    </div>
+                </a>
+                <hr class="sidebar-divider my-0">
+            </li>
+
+            <!-- Nav Item - Dashboard -->
+            <li class="nav-item active">
+                <a class="nav-link" asp-action="Profile" asp-controller="User" asp-route-id="@userId">
+                    Profile
+                </a>
+                <hr class="sidebar-divider">
+            </li>
+            @if (roleName != "Customer")
+            {
+                <!-- Heading -->
+                <li class="nav-item active">
+                    <div class="sidebar-heading">
+                        User Service
+                    </div>
+                </li>
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-action="UserTable" asp-controller="User">
+                        <i class="fas fa-fw fa-users"></i>
+                        <span>All Users</span>
+                    </a>
+                </li>
+
+                <!-- Nav Item - Create User -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-action="CreateUser" asp-controller="User">
+                        <i class="fas fa-fw fa-user-plus"></i>
+                        <span>Create User</span>
+                    </a>
+                    <hr class="sidebar-divider">
+                </li>
+                <!-- Nav Item - Orders Manager -->
+                <li class="nav-item">
+                    <div class="sidebar-heading">
+                        Shop Manager
+                    </div>
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseOrders"
+                       aria-expanded="true" aria-controls="collapseOrders">
+                        <i class="fas fa-fw fa-shopping-cart"></i>
+                        <span>Orders Report</span>
+                    </a>
+                    <div id="collapseOrders" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Pending</h6>
+                            <a class="collapse-item" href="#">Orders</a>
+                            <a class="collapse-item" href="#">Orders Required</a>
+                            <a class="collapse-item" href="#">Shipping</a>
+                            <a class="collapse-item" href="#">Shipping Back</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">Successed</h6>
+                            <a class="collapse-item" href="#">Orders Successed</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Nav Item - Product -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" href="#" data-toggle="collapse" data-target="#collapseProduct"
+                       aria-expanded="true" aria-controls="collapseProduct">
+                        <i class="fas fa-fw fa-box-open"></i>
+                        <span>Product Manager</span>
+                    </a>
+                    <div id="collapseProduct" class="collapse" aria-labelledby="headingPages" data-parent="#accordionSidebar">
+                        <div class="bg-white py-2 collapse-inner rounded">
+                            <h6 class="collapse-header">Product</h6>
+                            <a class="collapse-item" asp-action="index" asp-controller="product">All Products</a>
+                            <a class="collapse-item" href="#">In Stock</a>
+                            <a class="collapse-item" href="#">Pending</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">Category Service</h6>
+                            <a class="collapse-item" href="#">Create New Category</a>
+                            <div class="collapse-divider"></div>
+                            <h6 class="collapse-header">Product Service</h6>
+                            <a class="collapse-item" asp-action="Create" asp-controller="Product">Create New</a>
+                            <a class="collapse-item" href="#">Create New By Excel</a>
+                        </div>
+                    </div>
+                </li>
+
+                <!-- Nav Item - Tables -->
+                <li class="nav-item">
+                    <a class="nav-link" href="tables.html">
+                        <i class="fas fa-fw fa-coins"></i>
+                        <span>Revenue</span>
+                    </a>
+                    <hr class="sidebar-divider d-none d-md-block">
+                </li>
+
+            }
+            <!-- Sidebar Toggler (Sidebar) -->
+            <li class="text-center d-none d-md-inline">
+                <button class="rounded-circle border-0" id="sidebarToggle"></button>
+            </li>
+        </ul>
+        <!-- End of Sidebar -->
+        <div id="content-wrapper" class="d-flex flex-column">
+            <div class="container mt-5">
+                @RenderBody()
+            </div>
+        </div>
+    </div>
+
+    <script src="~/lib/jquery/dist/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
+    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/5.5.2/bootbox.min.js"></script>
+    <script src="~/js/sb-admin-2.min.js" asp-append-version="true"></script>
+    @RenderSection("Scripts", false)
+</body>
+</html>

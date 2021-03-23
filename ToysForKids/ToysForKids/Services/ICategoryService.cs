@@ -8,6 +8,10 @@ namespace ToysForKids.Services
 {
     public interface ICategoryService
     {
-        public List<CategoryViewModel> GetAllCategory();
+        public List<CategoryViewModel> GetAll();
+        public CategoryViewModel Get(int id);
+        public bool Edit(CategoryViewModel request);
+        public bool Create(CategoryViewModel request);
+        public bool Delete(CategoryViewModel request);
     }
 }

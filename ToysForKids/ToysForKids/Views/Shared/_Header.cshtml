@@ -1,115 +1,89 @@
 ﻿@inject UserManager<AppIdentityUser> userManager
+@inject ICategoryService categoryService
 @{
     var userId = userManager.GetUserId(User);
+    var user = await userManager.FindByIdAsync(userId);
+    var categories = categoryService.GetAll();
 }
-<div class="container">
-    <div class="header">
-        <a asp-area="" asp-controller="Home" asp-action="Index" class="logo">ToysForKids</a>
-        <div class="header-right">
-            @if (User.Identity.IsAuthenticated)
-            {
-                <a asp-area="" asp-controller="User" asp-action="Profile" asp-route-id="@userId">Welcome @User.Identity.Name.Split('@').First().ToUpper()</a>
-                <a asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
-            }
-            else
-            {
-                <a class="btn" asp-area="" data-toggle="modal" data-target="#myModal1">Login</a>
-                <a class="btn" asp-area="" data-toggle="modal" data-target="#myModal2">Register</a>
-            }
+<!-- Coursel Begin -->
+<header class="header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-2">
+                <div class="header__logo">
+                    <a asp-controller="Home" asp-action="Index">
+                        <img src="~/images/Logo.png" alt="logo" />
+                    </a>
+                </div>
+            </div>
+            <div class="col-lg-7">
+                <div class="header__nav">
+                    <nav class="header__menu mobile-menu">
+                        <ul>
+                            <li class="active"><a href="./index.html">Homepage</a></li>
+                            <li>
+                                <a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
+                                <ul class="dropdown">
+                                    @foreach (var item in categories)
+                                    {
+                                        <li><a asp-action="Detail" asp-controller="Category" asp-route-id="@item.CategoryId">@item.CategoryName</a></li>
+                                    }
+                                </ul>
+                            </li>
+                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li><a href="#">Contacts</a></li>
+                        </ul>
+                    </nav>
+                </div>
+            </div>
+            <div class="col-lg-3">
+                <nav class="header__menu mobile-menu">
+                    <ul>
+                        <li>
+                            <a asp-route="cart"><i class="fas fa-shopping-cart" style="color:white"></i></a>
+                        </li>
+                        <li class="active"><a href="#" class="search-switch"><i class="fas fa-search"></i></a></li>
+                        <li>
+                            @if (!User.Identity.IsAuthenticated)
+                            {
+                                <a asp-action="Login" asp-controller="Account">
+                                    <i class="far fa-user"></i>
+                                </a>
+                            }
+                            else
+                            {
+                                <a asp-action="Profile" asp-controller="User" asp-route-id="@user.Id">
+                                    @user.Fullname
+                                </a>
+                            }
+                            <ul class="dropdown">
+                                @if (!User.Identity.IsAuthenticated)
+                                {
+                                    <li><a asp-action="Login" asp-controller="Account">Login</a></li>
+                                    <li><a asp-action="Register" asp-controller="Account">Register</a></li>
+                                }
+                                else
+                                {
+                                    <li><a asp-action="Profile" asp-controller="User" asp-route-id="@user.Id">Profile</a></li>
+                                    <li><a asp-action="Logout" asp-controller="Account">Logout</a></li>
+                                }
+                            </ul>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
+            <div id="mobile-menu-wrap"></div>
         </div>
     </div>
-</div>
-<!-- Modal Register -->
-<div class="modal fade" id="myModal2">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Register</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form enctype="multipart/form-data" method="post" asp-controller="Account" asp-action="Register">
-                    <div>
-                        <label class="control-label">Firstname</label>
-                        <input class="form-control" type="text" data-val="true" data-val-maxlength="The field Firstname must be a string or array type with a maximum length of '25'." data-val-maxlength-max="25" data-val-required="The Firstname field is required." maxlength="25" name="Firstname">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Firstname" data-valmsg-replace="true"></span>
-                    </div>
-                    <div>
-                        <label class="control-label">Lastname</label>
-                        <input class="form-control" type="text" data-val="true" data-val-maxlength="The field Lastname must be a string or array type with a maximum length of '25'." data-val-maxlength-max="25" data-val-required="The Lastname field is required." maxlength="25" name="Lastname">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Lastname" data-valmsg-replace="true"></span>
-                    </div>
-                    <div>
-                        <label class="control-label">Email</label>
-                        <input class="form-control" type="email" data-val="true" data-val-email="The Email field is not a valid e-mail address." data-val-required="The Email field is required." name="Email">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                    </div>
-                    <div>
-                        <label class="control-label">Address</label>
-                        <input class="form-control" type="text" data-val="true" data-val-maxlength="The field Address must be a string or array type with a maximum length of '100'." data-val-maxlength-max="100" data-val-required="The Address field is required." maxlength="100" name="Address">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Address" data-valmsg-replace="true"></span>
-                    </div>
-                    <div>
-                        <label class="control-label">Phone Number</label>
-                        <input class="form-control" type="text" data-val="true" data-val-maxlength="The field Phone Number must be a string or array type with a maximum length of '15'." data-val-maxlength-max="15" data-val-required="The Phone Number field is required." maxlength="15" name="PhoneNumber">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="PhoneNumber" data-valmsg-replace="true"></span>
-                    </div>
-                    <div>
-                        <label class="control-label">Password</label>
-                        <input class="form-control" type="password" data-val="true" data-val-required="The Password field is required." name="Password">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Confirm Password</label>
-                        <input class="form-control" type="password" data-val="true" data-val-equalto="Password and confirmation password not match." data-val-equalto-other="*.Password" data-val-required="The Confirm Password field is required." name="ConfirmPassword">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="ConfirmPassword" data-valmsg-replace="true"></span>
-                    </div>
-                    <div>
-                        <input type="submit" value="Register" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-        </div>
+</header>
+<!-- Coursel End -->
+<!-- Search model Begin -->
+<div class="search-model">
+    <div class="h-100 d-flex align-items-center justify-content-center">
+        <div class="search-close-switch"><i class="icon_close"></i></div>
+        <form class="search-model-form">
+            <input type="text" id="search-input" placeholder="Search here.....">
+        </form>
     </div>
 </div>
-<!-- Modal Login -->
-<div class="modal fade" id="myModal1">
-    <div class="modal-dialog">
-        <div class="modal-content">
-
-            <!-- Modal Header -->
-            <div class="modal-header">
-                <h4 class="modal-title">Login</h4>
-                <button type="button" class="close" data-dismiss="modal">&times;</button>
-            </div>
-
-            <!-- Modal body -->
-            <div class="modal-body">
-                <form enctype="multipart/form-data" method="post" asp-controller="Account" asp-action="Login">
-                    <div class="form-group">
-                        <label class="control-label">Email</label>
-                        <input class="form-control" type="email" data-val="true" data-val-email="Email is not valid" data-val-required="Email is required" name="Email" value="">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Email" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group">
-                        <label class="control-label">Password</label>
-                        <input class="form-control" type="password" data-val="true" data-val-required="The Password field is required." name="Password">
-                        <span class="text-danger field-validation-valid" data-valmsg-for="Password" data-valmsg-replace="true"></span>
-                    </div>
-                    <div class="form-group form-check">
-                        <label class="form-check-label">
-                            <input type="checkbox" class="form-check-input" name="RemeberPassword" /> Remember Password
-                        </label>
-                    </div>
-                    <div class="form-group">
-                        <input type="submit" value="Login" class="btn btn-primary" />
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
-</div>
-
+<!-- Search model end -->

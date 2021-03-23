@@ -23,7 +23,7 @@ namespace ToysForKids.Controllers
             this.roleManager = roleManager;
         }
         [Authorize(Roles = "Admin")]
-        public IActionResult Index()
+        public IActionResult UserTable()
         {
             var user = userManager.Users;
             if(user !=null && user.Any())
@@ -53,10 +53,10 @@ namespace ToysForKids.Controllers
         }       
         public IActionResult Profile(string id)
         {
-            var user = userManager.Users;
-            var model = (from u in user
+            var users = userManager.Users;
+            var model = (from u in users
                          where u.Id == id
-                         select new UserViewModel()
+                         select new UserEditViewModel()
                          {
                              Address = u.Address,
                              Email = u.Email,
@@ -64,25 +64,12 @@ namespace ToysForKids.Controllers
                              PhoneNumber = u.PhoneNumber,
                              UserId = u.Id,
                          }).FirstOrDefault();
+            var roleName = GetRoleName(model.UserId);
+            var role = Task.Run(async () => await roleManager.FindByNameAsync(roleName)).Result;
+            model.RoleId = role.Id;
             return View(model);
         }
-        [Authorize(Roles = "Admin")]
-        public IActionResult UserProfile(string id)
-        {
-            var user = userManager.Users;
-            var model = (from u in user
-                         where u.Id == id
-                         select new UserViewModel()
-                         {
-                             Address = u.Address,
-                             Email = u.Email,
-                             Fullname = u.Fullname,
-                             PhoneNumber = u.PhoneNumber,
-                             UserId = u.Id,                            
-                         }).FirstOrDefault();
-            model.RoleName = GetRoleName(id);
-            return View(model);
-        }
+        
         [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult CreateUser()
@@ -113,7 +100,7 @@ namespace ToysForKids.Controllers
                         var addRoleResult = await userManager.AddToRoleAsync(user, role.Name);
                         if(addRoleResult.Succeeded)
                         {
-                            return RedirectToAction("Index", "User");
+                            return RedirectToAction("UserTable", "User");
                         }
                         foreach(var errors in addRoleResult.Errors)
                         {
@@ -128,80 +115,9 @@ namespace ToysForKids.Controllers
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");
             }
             return View(model);
-        }
-        [HttpGet]
-        public async Task<IActionResult> EditProfile(string id)
-        {         
-            var user = await userManager.FindByIdAsync(id);
-            if (user != null)
-            {
-                var editUser = new UserViewModel()
-                {
-                    Address = user.Address,
-                    Email = user.Email,
-                    Fullname = user.Fullname,
-                    PhoneNumber = user.PhoneNumber,
-                    UserId = user.Id
-                };
-                return View(editUser);
-            }
-            return View();
-        }
+        }       
         [HttpPost]
-        public async Task<IActionResult> EditProfile(UserViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                var user = await userManager.FindByIdAsync(model.UserId);
-                if (user != null)
-                {
-                    user.Address = model.Address;
-                    user.Email = model.Email;
-                    user.Fullname = model.Fullname;
-                    user.UserName = model.Email;
-                    user.PhoneNumber = model.PhoneNumber;
-                    var result = await userManager.UpdateAsync(user);
-                    if (result.Succeeded)
-                    {
-                        return RedirectToAction("Profile", "User", new { id = model.UserId });
-                    }
-                    foreach (var error in result.Errors)
-                    {
-                        ModelState.AddModelError("", error.Description);
-                    }
-                }
-            }
-            return View(model);
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpGet]
-        public async Task<IActionResult> EditUser(string id)
-        {
-            ViewBag.Roles = roleManager.Roles;
-            var user = await userManager.FindByIdAsync(id);
-            if (user != null)
-            {
-                var editUser = new UserEditViewModel()
-                {
-                    Address = user.Address,
-                    Email = user.Email,
-                    Fullname = user.Fullname,
-                    PhoneNumber = user.PhoneNumber,
-                    UserId = user.Id
-                };
-                var roleName = await userManager.GetRolesAsync(user);
-                if(roleName != null && roleName.Any())
-                {
-                    var role = await roleManager.FindByNameAsync(roleName.FirstOrDefault());
-                    editUser.RoleId = role.Id;
-                }
-                return View(editUser);
-            }
-            return View();
-        }
-        [Authorize(Roles = "Admin")]
-        [HttpPost]
-        public async Task<IActionResult> EditUser(UserEditViewModel model)
+        public async Task<IActionResult> Edit(UserEditViewModel model)
         {
             if (ModelState.IsValid)
             {
@@ -224,7 +140,7 @@ namespace ToysForKids.Controllers
                             var addRoleResult = await userManager.AddToRoleAsync(user, role.Name);
                             if (addRoleResult.Succeeded)
                             {
-                                return RedirectToAction("UserProfile", "User", new { id = model.UserId });
+                                return RedirectToAction("Profile", "User", new { id = model.UserId });
                             }
                             foreach (var errors in addRoleResult.Errors)
                             {
@@ -238,7 +154,7 @@ namespace ToysForKids.Controllers
                     }
                 }
             }
-            return View(model);
+            return RedirectToAction("Profile", "User", new { id = model.UserId });
         }
         [Authorize(Roles = "Admin")]
         public async Task<IActionResult> DeleteUser(string id)
@@ -249,7 +165,7 @@ namespace ToysForKids.Controllers
                 var result = await userManager.DeleteAsync(delUser);
                 if(result.Succeeded)
                 {
-                    return RedirectToAction("Index", "User");
+                    return RedirectToAction("UserTable", "User");
                 }
                 foreach (var error in result.Errors)
                 {

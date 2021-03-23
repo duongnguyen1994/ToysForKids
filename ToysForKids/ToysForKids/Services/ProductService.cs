@@ -17,31 +17,45 @@ namespace ToysForKids.Services
         {
             this.context = context;
         }
-        public bool Create(ProductCreateViewModel request)
-        {
-            throw new NotImplementedException();
-        }
 
-        public bool Delete(ProductCreateViewModel request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public bool Edit(ProductCreateViewModel request)
+        public bool Create(ProductViewModel request)
         {
             try
             {
-                var editproduct = context.Products.Find(request.ProductId);
-                editproduct.ProductName = request.ProductName;
-                editproduct.Description = request.Description;
-                editproduct.FileAvatarName = request.FileAvatarName;
-                editproduct.CategoryId = request.CategoryId;
-                editproduct.UnitPrice = request.UnitPrice;
-                editproduct.UnitInStock = request.UnitInStock;
-                editproduct.UnitOnOrder = request.UnitOnOrder;
-                editproduct.QuantityPerUnit = request.QuantityPerUnit;
-                context.Attach(editproduct);
-                context.Entry<Product>(editproduct).State = EntityState.Modified;
+                var product = new Product()
+                {
+                    CategoryId = request.CategoryId,
+                    Description = request.Description,
+                    UnitPrice = request.UnitPrice,
+                    UnitOnOrder = 0,
+                    FileAvatarName = request.FileAvatarName,
+                    ProductName = request.ProductName,
+                    QuantityPerUnit = request.QuantityPerUnit,
+                    UnitInStock = request.QuantityPerUnit
+                };
+                context.Add(product);
+                return context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }           
+        }
+        public bool Edit(ProductViewModel request)
+        {
+            try
+            {
+                var editProduct = context.Products.Find(request.ProductId);
+                editProduct.CategoryId = request.CategoryId;
+                editProduct.Description = request.Description;
+                editProduct.FileAvatarName = request.FileAvatarName;
+                editProduct.ProductName = request.ProductName;
+                editProduct.QuantityPerUnit = request.QuantityPerUnit;
+                editProduct.UnitInStock = request.UnitInStock;
+                editProduct.UnitOnOrder = request.UnitOnOrder;
+                editProduct.UnitPrice = request.UnitPrice;
+                context.Attach(editProduct);
+                context.Entry<Product>(editProduct).State = EntityState.Modified;
                 return context.SaveChanges() > 0;
             }
             catch (Exception)
@@ -50,37 +64,52 @@ namespace ToysForKids.Services
             }
         }
 
-        public ProductCreateViewModel Get(int id)
+        public bool Delete(ProductViewModel request)
         {
-            var product = context.Products.Find(id);
-            return new ProductCreateViewModel()
+            try
             {
-                Description = product.Description,
-                FileAvatarName = product.FileAvatarName,
-                ProductId = product.ProductId,
-                ProductName = product.ProductName,
-                QuantityPerUnit = product.QuantityPerUnit,
-                UnitInStock = product.UnitInStock,
-                UnitOnOrder = product.UnitOnOrder,
-                UnitPrice = product.UnitPrice,
-                CategoryId = product.CategoryId
-            };
+                var delProduct = context.Products.Find(request.ProductId);
+                context.Remove(delProduct);
+                return context.SaveChanges() > 0;
+            }
+            catch (Exception)
+            {
+                return false;
+            }
         }
 
-        public List<ProductCreateViewModel> GetAllProduct()
+        public ProductViewModel Get(int id)
         {
-            var product = context.Products;
-            return (from p in product
-                    select new ProductCreateViewModel()
+            return (from p in context.Products
+                    where p.ProductId == id
+                    select new ProductViewModel()
                     {
-                        ProductId = p.ProductId,
+                        CategoryId = p.CategoryId,
                         Description = p.Description,
+                        FileAvatarName = p.FileAvatarName,
+                        ProductId = p.ProductId,
                         ProductName = p.ProductName,
                         QuantityPerUnit = p.QuantityPerUnit,
                         UnitInStock = p.UnitInStock,
-                        UnitPrice = p.UnitPrice,
                         UnitOnOrder = p.UnitOnOrder,
+                        UnitPrice = p.UnitPrice
+                    }).FirstOrDefault();
+        }
+
+        public List<ProductViewModel> GetAll()
+        {
+            var products = context.Products.ToList();
+            return (from p in products
+                    select new ProductViewModel()
+                    {
+                        Description = p.Description,
                         FileAvatarName = p.FileAvatarName,
+                        ProductId = p.ProductId,
+                        ProductName = p.ProductName,
+                        QuantityPerUnit = p.QuantityPerUnit,
+                        UnitInStock = p.UnitInStock,
+                        UnitOnOrder = p.UnitOnOrder,
+                        UnitPrice = p.UnitPrice,
                         CategoryId = p.CategoryId
                     }).ToList();
         }

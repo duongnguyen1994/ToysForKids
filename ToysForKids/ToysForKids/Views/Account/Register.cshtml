@@ -1,100 +1,91 @@
 ﻿@model RegisterViewModel
 @{
     ViewBag.Title = "Register";
-    Layout = "_AccountLayout";
+    Layout = "_Layout";
 }
-@*<h4>Register</h4>
-    <hr />
-    <div class="row">
-        <div class="col-md-4">
-            <form asp-action="Register">
-                <input hidden asp-for="RoleId" />
-                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                <div class="form-group">
-                    <label asp-for="Firstname" class="control-label"></label>
-                    <input asp-for="Firstname" class="form-control" />
-                    <span asp-validation-for="Firstname" class="text-danger"></span>
+<section class="normal-breadcrumb set-bg" data-setbg="../images/Background.jpg">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <div class="normal__breadcrumb__text">
+                    <h2>Login</h2>
+                    <p>Welcome to the official Toys For Kids</p>
                 </div>
-                <div class="form-group">
-                    <label asp-for="Lastname" class="control-label"></label>
-                    <input asp-for="Lastname" class="form-control" />
-                    <span asp-validation-for="Lastname" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Email" class="control-label"></label>
-                    <input asp-for="Email" class="form-control" />
-                    <span asp-validation-for="Email" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Address" class="control-label"></label>
-                    <input asp-for="Address" class="form-control" />
-                    <span asp-validation-for="Address" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="PhoneNumber" class="control-label"></label>
-                    <input asp-for="PhoneNumber" class="form-control" />
-                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="Password" class="control-label"></label>
-                    <input asp-for="Password" class="form-control" />
-                    <span asp-validation-for="Password" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <label asp-for="ConfirmPassword" class="control-label"></label>
-                    <input asp-for="ConfirmPassword" class="form-control" />
-                    <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-                </div>
-                <div class="form-group">
-                    <input type="submit" value="Register" class="btn btn-primary" />
-                </div>
-            </form>
+            </div>
         </div>
     </div>
-
-    <div>
-        <a asp-controller="Home" asp-action="Index">Back to List</a>
-    </div>*@
-<div class="login-clean" style="padding:18px 0;">
-    <form method="post" asp-action="Register" asp-controller="Account" style="max-width:500px">
-        <h2 class="sr-only">Register Form</h2>
-        <div class="illustration"><img src="~/images/LogoLogin_Register.png"></div>
-        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <div class="form-group row">
-            <div class="col-6">
-                <input asp-for="Firstname" class="form-control" placeholder="Firstname" />
-                <span asp-validation-for="Firstname" class="text-danger"></span>
+</section>
+<!-- Normal Breadcrumb End -->
+<!-- Register Section Begin -->
+<section class="signup spad">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-6">
+                <div class="login__form">
+                    <h3>Register</h3>
+                    <form method="post" asp-action="Register" asp-controller="Account">
+                        <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Firstname" asp-for="Firstname">
+                            <span class="icon_profile"></span>
+                        </div>
+                        <div class="form-group">
+                            <span asp-validation-for="Firstname" class="text-danger"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Lastname" asp-for="Lastname">
+                            <span class="icon_profile"></span>
+                        </div>
+                        <div class="form-group">
+                            <span asp-validation-for="Lastname" class="text-danger"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Address" asp-for="Address">
+                            <span class="icon_house"></span>
+                        </div>
+                        <div class="form-group">
+                            <span asp-validation-for="Address" class="text-danger"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Phone Number" asp-for="PhoneNumber">
+                            <span class="icon_phone"></span>
+                        </div>
+                        <div class="form-group">
+                            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="text" placeholder="Email address" asp-for="Email">
+                            <span class="icon_mail"></span>
+                        </div>
+                        <div class="form-group">
+                            <span asp-validation-for="Email" class="text-danger"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="password" placeholder="Password" asp-for="Password">
+                            <span class="icon_lock"></span>
+                        </div>
+                        <div class="form-group">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <div class="input__item">
+                            <input type="password" placeholder="Confirm Password" asp-for="ConfirmPassword">
+                            <span class="icon_lock_alt"></span>
+                        </div>
+                        <div class="form-group">
+                            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
+                        </div>
+                        <button type="submit" class="site-btn">Login Now</button>
+                    </form>
+                    <a href="#" class="forget_pass">Forgot Your Password?</a>
+                </div>
             </div>
-            <div class="col-6">
-                <input asp-for="Lastname" class="form-control" placeholder="Lastname" />
-                <span asp-validation-for="Lastname" class="text-danger"></span>
+            <div class="col-lg-6">
+                <div class="login__register">
+                    <h3>Already Have An Account?</h3>
+                    <a asp-action="Login" asp-controller="Account" class="primary-btn">Login Now</a>
+                </div>
             </div>
         </div>
-        <div class="form-group">
-            
-        </div>
-        <div class="form-group">
-            <input asp-for="Email" class="form-control" placeholder="Email" />
-            <span asp-validation-for="Email" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input asp-for="Address" class="form-control" placeholder="Address" />
-            <span asp-validation-for="Address" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number" />
-            <span asp-validation-for="PhoneNumber" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input asp-for="Password" class="form-control" placeholder="Password" />
-            <span asp-validation-for="Password" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input asp-for="ConfirmPassword" class="form-control" placeholder="Confirm Password" />
-            <span asp-validation-for="ConfirmPassword" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <button class="btn btn-primary btn-block" type="submit">Register</button>
-        </div>
-    </form>
-</div>
+    </div>
+</section>
+<!-- Register Section End -->

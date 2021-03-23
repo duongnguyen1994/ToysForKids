@@ -67,9 +67,9 @@ namespace ToysForKids.Controllers
         {
             if(ModelState.IsValid)
             {
-                var result = await signInManager.PasswordSignInAsync(user.Email, user.Password, user.RemeberPassword, false);
-                if(result.Succeeded)
-                {
+                var result = await signInManager.PasswordSignInAsync(user.Email, user.Password, user.RememberPassword, false);       
+                if (result.Succeeded)
+                {                 
                     return RedirectToAction("Index", "Home");
                 }
                 ModelState.AddModelError(string.Empty, "Invalid Login Attempt");

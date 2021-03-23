@@ -8,10 +8,10 @@ namespace ToysForKids.Services
 {
     public interface IProductService
     {
-        public List<ProductCreateViewModel> GetAllProduct();
-        public ProductCreateViewModel Get(int id);
-        public bool Edit(ProductCreateViewModel request);
-        public bool Create(ProductCreateViewModel request);
-        public bool Delete(ProductCreateViewModel request);
+        public List<ProductViewModel> GetAll();
+        public ProductViewModel Get(int id);
+        public bool Edit(ProductViewModel request);
+        public bool Create(ProductViewModel request);
+        public bool Delete(ProductViewModel request);
     }
 }

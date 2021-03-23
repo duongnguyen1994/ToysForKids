@@ -33,6 +33,76 @@ namespace ToysForKids.DbContexts
                     entityType.SetTableName(tableName.Substring(6));
                 }
             }
+            builder.Entity<Category>().HasData(
+                new Category()
+                {
+                    CategoryId = 1,
+                    CategoryName = "Tank"
+                },
+                new Category()
+                {
+                    CategoryId = 2,
+                    CategoryName = "Car"
+                },
+                new Category()
+                {
+                    CategoryId = 3,
+                    CategoryName = "Aircraft"
+                },
+                new Category()
+                {
+                    CategoryId = 4,
+                    CategoryName = "Destroyer"
+                });
+            builder.Entity<Product>().HasData(
+                new Product()
+                {
+                    ProductId = 1,
+                    CategoryId = 1,
+                    ProductName = "M1917",
+                    Description = "USA-World War 1",
+                    QuantityPerUnit = 20,
+                    UnitInStock = 20,
+                    UnitOnOrder = 0,
+                    UnitPrice = 120000,
+                    FileAvatarName = "M1917.jpg"
+                },
+                new Product()
+                {
+                    ProductId = 2,
+                    CategoryId = 1,
+                    ProductName = "M1918",
+                    Description = "USA-World War 1",
+                    QuantityPerUnit = 20,
+                    UnitInStock = 20,
+                    UnitOnOrder = 0,
+                    UnitPrice = 150000,
+                    FileAvatarName = "M1918.jpg"
+                },
+                new Product()
+                {
+                    ProductId = 3,
+                    CategoryId = 2,
+                    ProductName = "RADCLO RC Car 2.4Ghz 1/20",
+                    Description = "Made in China",
+                    QuantityPerUnit = 20,
+                    UnitInStock = 20,
+                    UnitOnOrder = 0,
+                    UnitPrice = 120000,
+                    FileAvatarName = "RADCLO_RC_Car.jpg"
+                },
+                new Product()
+                {
+                    ProductId = 4,
+                    CategoryId = 3,
+                    ProductName = "Airforce 1",
+                    Description = "USA",
+                    QuantityPerUnit = 20,
+                    UnitInStock = 20,
+                    UnitOnOrder = 0,
+                    UnitPrice = 220000,
+                    FileAvatarName = "Airforce 1.jpg"
+                });
         }
     }
 }

@@ -1,0 +1,20 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<!--
+https://go.microsoft.com/fwlink/?LinkID=208121. 
+-->
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <TimeStampOfAssociatedLegacyPublishXmlFile />
+    <_PublishTargetUrl>C:\Users\Nguyen Trung Duong\Desktop\Publish</_PublishTargetUrl>
+  </PropertyGroup>
+  <ItemGroup>
+    <DestinationConnectionStrings Include="DbConnection">
+      <Value>workstation id=ToysforkidsDB.mssql.somee.com%3bpacket size=4096%3buser id=ntrduong1994_SQLLogin_1%3bpwd=azlilor1az%3bdata source=ToysforkidsDB.mssql.somee.com%3bpersist security info=False%3binitial catalog=ToysforkidsDB</Value>
+    </DestinationConnectionStrings>
+  </ItemGroup>
+  <ItemGroup>
+    <EFMigrations Include="ToysForKids.DbContexts.AppDbContext">
+      <Value>workstation id=ToysforkidsDB.mssql.somee.com%3bpacket size=4096%3buser id=ntrduong1994_SQLLogin_1%3bpwd=azlilor1az%3bdata source=ToysforkidsDB.mssql.somee.com%3bpersist security info=False%3binitial catalog=ToysforkidsDB</Value>
+    </EFMigrations>
+  </ItemGroup>
+</Project>

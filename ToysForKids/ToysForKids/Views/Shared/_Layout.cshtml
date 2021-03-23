@@ -4,34 +4,38 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>@ViewData["Title"] - ToysForKids</title>
-    <link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+    @*------------Template--------------*@
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Mulish:wght@300;400;500;600;700;800;900&display=swap" />
     <link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.10.0/css/all.css" integrity="sha384-AYmEC3Yw5cVb3ZcuHtOA93w35dYTsvhLPVnYs9eStHfGJvOvKxVfELGroGkvsg+p" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link href="~/css/HomeTemplate/elegant-icons.css" rel="stylesheet" />
+    <link href="~/css/HomeTemplate/plyr.css" rel="stylesheet" />
+    <link href="~/css/HomeTemplate/nice-select.css" rel="stylesheet" />
+    <link href="~/css/HomeTemplate/owl.carousel.min.css" rel="stylesheet" />
+    <link href="~/css/HomeTemplate/slicknav.min.css" rel="stylesheet" />
+    <link href="~/css/HomeTemplate/style.css" rel="stylesheet" />
 </head>
 <body>
-    <partial name="_Header" />
-    <partial name="_Navbar" />
-    <div class="container">
-        <main role="main" class="pb-3">
-            @RenderBody()
-        </main>
+    <div id="preloder">
+        <div class="loader"></div>
     </div>
-
-    <footer class="border-top footer text-muted">
-        <div class="container">
-            &copy; 2021 - ToysForKids - <a asp-area="" asp-controller="Home" asp-action="Privacy">Privacy</a>
-        </div>
-    </footer>
-    <script src="~/lib/jquery/dist/jquery.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/1.10.24/css/jquery.dataTables.css">
-    <script type="text/javascript" charset="utf8" src="https://cdn.datatables.net/1.10.24/js/jquery.dataTables.js"></script>
-    <script src="~/lib/jquery-validation/dist/jquery.validate.js"></script>
-    <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-    <script src="~/js/site.js" asp-append-version="true"></script>
-    <script src="~/lib/bootbox/bootbox.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <partial name="_Header" />
+    <div>
+        @RenderBody()
+    </div>
+    <partial name="_Footer" />
+    @*---------Template-----------*@
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-    <link rel="stylesheet" href="~/css/site.css" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="~/js/HomeTemplate/player.js"></script>
+    <script src="~/js/HomeTemplate/jquery.nice-select.min.js"></script>
+    <script src="~/js/HomeTemplate/mixitup.min.js"></script>
+    <script src="~/js/HomeTemplate/jquery.slicknav.js"></script>
+    <script src="~/js/HomeTemplate/owl.carousel.min.js"></script>
+    <script src="~/js/HomeTemplate/main.js"></script>
+    <script src="~/js/site.js"></script>
     @RenderSection("Scripts", false);
-    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
 </body>
 </html>

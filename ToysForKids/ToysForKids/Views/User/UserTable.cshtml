@@ -1,0 +1,101 @@
+﻿@model IEnumerable<ToysForKids.Models.ViewModels.UserViewModel>
+@{
+    ViewBag.Title = "Users Managerment";
+    Layout = "_DashBoardLayout";
+}
+
+<a asp-controller="User" asp-action="CreateUser">
+    <i class="fas fa-user-plus" style="font-size:200%"></i>
+</a>
+<table class="table table-bordered table-responsive-lg display" id="users">
+    <thead>
+        <tr class="thead-dark">
+            <th>
+                @Html.DisplayNameFor(model => model.Fullname)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Email)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PhoneNumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.RoleName)
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Fullname)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Email)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Address)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.PhoneNumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.RoleName)
+                </td>
+                <td>
+                    <a asp-controller="User" asp-action="Profile" asp-route-id="@item.UserId">
+                        <i class="fas fa-id-card" style="font-size:150%"></i>
+                    </a>
+                    <a href="#" onclick="removeUser('@item.UserId')">
+                        <i class="fas fa-user-times" style="font-size:150%;color:red;"></i>
+                    </a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts {
+   
+    <script>
+        function removeUser(UserId) {
+            bootbox.confirm({
+                title: "Remove role?",
+                message: "Do you really want to remove this user",
+                buttons: {
+                    cancel: {
+                        label: '<i class="fa fa-times"></i> No'
+                    },
+                    confirm: {
+                        label: '<i class="fa fa-check"></i> Yes'
+                    }
+                },
+                callback: function (result) {
+                    if (result) {
+                        $.ajax({
+                            type: "GET",
+                            url: `/User/DeleteUser/${UserId}`,
+                            success: function (result) {
+                                bootbox.alert("Successed!", function () {
+                                    window.location.href = "/User/UserTable";
+                                });
+                            }
+                        });
+                    }
+                }
+            });
+        }
+        $(document).ready(function () {
+            $('#users').DataTable();
+        });
+    </script>
+}
+
+
+

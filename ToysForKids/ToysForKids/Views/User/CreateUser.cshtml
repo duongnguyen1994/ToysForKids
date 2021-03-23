@@ -2,13 +2,11 @@
 
 @{
     ViewData["Title"] = "Create User";
-    Layout = "~/Views/Shared/_Layout.cshtml";
+    Layout = "_DashBoardLayout";
     var roles = ViewBag.Roles as IQueryable<IdentityRole>;
 }
 
-<h1>CreateUser</h1>
-
-<h4>RegisterViewModel</h4>
+<h1>Create User</h1>
 <hr />
 <div class="row">
     <div class="col-md-4">
@@ -70,11 +68,6 @@
     </div>
 </div>
 
-<div>
-    <a asp-action="Index">
-        <i class="fas fa-arrow-circle-left" style="font-size:200%"></i>
-    </a>
-</div>
 
 @section Scripts {
     @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
