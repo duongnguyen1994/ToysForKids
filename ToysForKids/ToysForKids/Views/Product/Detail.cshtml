@@ -6,7 +6,7 @@
     Layout = "_Layout";
     var categories = categoryService.GetAll();
     var category = categories.Where(c => c.CategoryId == Model.CategoryId).FirstOrDefault();
-    var products = productService.GetAll().Where(p => p.CategoryId == Model.CategoryId && p.ProductId!=Model.ProductId);
+    var products = productService.GetAll().Where(p => p.CategoryId == Model.CategoryId && p.ProductId != Model.ProductId);
     var newProducts = new Stack<ProductViewModel>(products);
 }
 
@@ -39,7 +39,7 @@
                             </div>
                         </div>
                         <div class="anime__details__btn">
-                            <a asp-action="AddToCart" asp-controller="Cart" asp-route-productid="@Model.ProductId" class="follow-btn">Add Cart</a>
+                            <a data-productid="@Model.ProductId" class="btn btn-secondary btn-sm follow-btn addcart">Add Cart</a>
                         </div>
                     </div>
                 </div>
@@ -65,18 +65,39 @@
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="/images/Products/@newProducts.Peek().FileAvatarName">
                                 <div class="comment"><i class="fa fa-coins"></i>  @newProducts.Peek().UnitPrice.ToString("n0") VND</div>
-                                <a class="btn btn-secondary btn-sm view" href="#"><i class="fa fa-shopping-cart"></i>  ADD CART</a>
+                                <a class="btn btn-secondary btn-sm view addcart" data-productid="@newProducts.Peek().ProductId"><i class="fa fa-shopping-cart"></i>  ADD CART</a>
                             </div>
                             <div class="product__item__text">
                                 <h5><a href="#">@newProducts.Pop().ProductName</a></h5>
                             </div>
                         </div>
                     </div>
-
                 }
             </div>
-
         </div>
     </div>
 </section>
+@section Scripts{
+    @*<script>
+        $(document).ready(function () {
+            jQuery("#addcart").click(function () {
+                var productid = parseInt($(this).data('productid'));
+                $.ajax({
+                    url: '/Cart/AddToCart',
+                    dataType: 'json',
+                    type: 'GET',
+                    contentType: 'application/json',
+                    data: { "productid": productid },
+                    success: function (data) {
+                        alert(data);
+                    },
+                    error: function (xhr) {
+                        alert('error');
+                    }
+                });
+            });
+        });
+    </script>*@
+<script src="~/js/scripts/cart.js" asp-append-version="true"></script>
+}
 

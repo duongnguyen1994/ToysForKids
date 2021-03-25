@@ -442,3 +442,4 @@ D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Release\netcoreapp3.1\To
 D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Release\netcoreapp3.1\ToysForKids.pdb
 D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Release\netcoreapp3.1\ToysForKids.genruntimeconfig.cache
 D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Release\netcoreapp3.1\ToysForKids.csprojAssemblyReference.cache
+D:\codegym\CaseStudyModule3\ToysForKids\ToysForKids\obj\Release\netcoreapp3.1\Razor\Views\Cart\Cart.cshtml.g.cs

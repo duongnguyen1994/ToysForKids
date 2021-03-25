@@ -5,12 +5,12 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Cart</h1>
+<h3>Cart</h3>
 
 @if (Model.Count > 0)
 {
-    long total = 0;
-    <table class="table">
+    long totalAmount = 0;
+    <table class="table table-hover table-dark">
         <thead>
             <tr>
                 <th>#</th>
@@ -18,14 +18,14 @@
                 <th>Unit Price</th>
                 <th>Count</th>
                 <th>Total</th>
-                <th></th>>
+                <th>Action</th>
             </tr>
         </thead>
         <tbody>
             @foreach (var item in Model)
             {
                 var cost = item.quantity * item.product.UnitPrice;
-                total += cost;
+                totalAmount += cost;
                 <tr>
                     <td></td>
                     <td>
@@ -35,10 +35,10 @@
                         @item.product.UnitPrice.ToString("n0")
                     </td>
                     <td>
-                        <input asp-for="@item.quantity" id="@($"quantity-{item.product.ProductId}")" />
+                        <input asp-for="@item.quantity" class="@($"quantity-{item.product.ProductId}")" />
                     </td>
                     <td>
-                        @total.ToString("n0")
+                        @cost.ToString("n0")
                     </td>
                     <td>
                         <button class="btn btn-success updatecartitem" data-productid="@item.product.ProductId">
@@ -47,43 +47,51 @@
                         <a asp-route="removecart" asp-route-productid="@item.product.ProductId"
                            class="btn btn-danger">Xóa</a>
                     </td>
-                </tr>
+                </tr>   
             }
         </tbody>
         <tfoot>
             <tr>
                 <td colspan="4" class="text-right">Total Amount</td>
-                <td>@(total.ToString("n0"))</td>
-                <td></td>
+                <td>@(totalAmount.ToString("n0"))</td>
+                <td><a asp-controller="Product" asp-action="Checkout" class="btn btn-success">Checkout</a></td>
             </tr>
         </tfoot>
     </table>
-    <a asp-controller="Product" asp-action="Checkout" class="btn btn-success">Checkout</a>
-    @section Scripts {
-        <script>
-          $(document).ready(function () {
-              $(".updatecartitem").click(function (event) {
-                  event.preventDefault();
-                  var productid = $(this).attr("data-productid");
-                  var quantity = $("#quantity-" + productid).val();
-                  $.ajax({
-                      type: "POST",
-                      url:"@Url.RouteUrl("updatecart")",
-                      data: {
-                          productid: productid,
-                          quantity:quantity
-                      },
-                      success: function (result) {
-                          window.location.href = "@Url.RouteUrl("cart")";
-                      }
-                  });
-              });
-          });
-        </script>
-    }
+    
 }
 else
 {
     <p class="alert alert-danger">Empty</p>
 }
-
+@section Scripts {
+    <script>
+          $(document).ready(function () {
+              $(".updatecartitem").click(function (event) {
+                  event.preventDefault();
+                  var productid = $(this).attr("data-productid");
+                  var quantity = $(".quantity-" + productid).val();
+                  $.ajax({
+                      type: "POST",
+                      url:`/updatecart/${productid}/${quantity}`,
+                      data: {
+                          productid: productid,
+                          quantity:quantity
+                      },
+                      success: function () {
+                          bootbox.alert({
+                              message: "Update Successed!",
+                              callback: function () {
+                                  location.reload();
+                              }
+                          })                                                
+                      },
+                      error: function () {
+                          bootbox.alert("Update failed!");
+                      }
+                  });
+              });
+          });
+    </script>
+    <script src="~/js/scripts/cart.js"></script>
+}

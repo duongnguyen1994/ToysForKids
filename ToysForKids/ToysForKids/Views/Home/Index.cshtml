@@ -1,60 +1,34 @@
 ﻿@inject ICategoryService categoryService
 @{
     var categories = categoryService.GetAll();
+    var categoriesCarousel = categories.Where(c => c.CategoryName != "Drone");
     ViewData["Title"] = "Home Page";
+    var count = 1;
 }
 <!--Carousel Section Begin -->
 <section class="hero">
     <div class="container">
         <div class="hero__slider owl-carousel">
-            <div class="hero__items set-bg" data-setbg="images/Carousel1.jpg">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <div class="label">RC Car</div>
-                            <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                            <p>After 30 days of travel across the world...</p>
-                            <a href="#"><span>See More</span> <i class="fa fa-angle-right"></i></a>
+            @foreach (var item in categoriesCarousel)
+            {              
+                if(count == 5)
+                {
+                    count = 1;
+                }
+                <div class="hero__items set-bg" data-setbg="images/@($"Carousel{count}").jpg">
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="hero__text">
+                                <div class="label">RC @item.CategoryName</div>
+                                <h2>Fate / Stay Night: Unlimited Blade Works</h2>
+                                <p>After 30 days of travel across the world...</p>
+                                <a asp-action="Detail" asp-controller="Category" asp-route-id="@item.CategoryId"><span>See More</span> <i class="fa fa-angle-right"></i></a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="hero__items set-bg" data-setbg="images/Carousel2.jpg">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <div class="label">RC Aircraft</div>
-                            <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                            <p>After 30 days of travel across the world...</p>
-                            <a href="#"><span>See More</span> <i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__items set-bg" data-setbg="images/Carousel3.jpg">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <div class="label">RC Destroyer</div>
-                            <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                            <p>After 30 days of travel across the world...</p>
-                            <a href="#"><span>See More</span> <i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="hero__items set-bg" data-setbg="images/Carousel4.jpg">
-                <div class="row">
-                    <div class="col-lg-6">
-                        <div class="hero__text">
-                            <div class="label">RC Tank</div>
-                            <h2>Fate / Stay Night: Unlimited Blade Works</h2>
-                            <p>After 30 days of travel across the world...</p>
-                            <a href="#"><span>See More</span> <i class="fa fa-angle-right"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+                count++;
+            }          
         </div>
     </div>
 </section>
@@ -90,8 +64,7 @@
                                             <div class="product__item__pic set-bg" data-setbg="images/Products/@prod.Peek().FileAvatarName">
                                                 <div class="comment"><i class="fa fa-coins"></i>   @prod.Peek().UnitPrice.ToString("n0") VND</div>
                                                 @*<a class="btn btn-secondary btn-sm view" id="addcart" data-productid="@prod.Peek().ProductId"><i class="fa fa-shopping-cart"></i>  ADD CART</a>*@
-                                                <a class="btn btn-secondary btn-sm view" asp-action="AddToCart" asp-controller="Cart"
-                                                   asp-route-productid="@prod.Peek().ProductId"><i class="fa fa-shopping-cart"></i>  ADD</a>
+                                                <a class="btn btn-secondary btn-sm view addcart" data-productid="@prod.Peek().ProductId"><i class="fa fa-shopping-cart"></i>  ADD</a>
                                             </div>
                                             <div class="product__item__text">
                                                 <h5><a asp-action="Detail" asp-controller="Product" asp-route-id="@prod.Peek().ProductId">@prod.Pop().ProductName</a></h5>
@@ -121,14 +94,14 @@
                                     @{
                                         var prod = new Stack<Product>
                                         (items.Products);
-                                        @for (int i = 0; i < 3; i++)
+                                        @for (int i = 0; i < 5; i++)
                                         {
                                             <div class="product__sidebar__view__item set-bg"
                                                  data-setbg="images/Products/@prod.Peek().FileAvatarName">
                                                 <div class="ep">
                                                     <i class="fa fa-coins"></i>   @prod.Peek().UnitPrice.ToString("n0") VND
                                                 </div>
-                                                <button class="view"><i class="fa fa-shopping-cart"></i>  ADD</button>
+                                                <button class="view addcart" data-productid="@prod.Peek().ProductId"><i class="fa fa-shopping-cart"></i>  ADD</button>
                                                 <h5><a asp-action="Detail" asp-controller="Product" asp-route-id="@prod.Peek().ProductId">@prod.Pop().ProductName</a></h5>
                                             </div>
                                         }
@@ -143,3 +116,6 @@
     </div>
 </section>
 <!-- Product Section End -->
+@section Scripts{ 
+<script src="~/js/scripts/cart.js" asp-append-version="true"></script>
+}

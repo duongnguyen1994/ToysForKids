@@ -19,6 +19,7 @@ namespace ToysForKids.Controllers
         {
             this.context = context;
         }
+        [Route("/Cart/AddToCart/{productid}")]
         public IActionResult AddToCart(int productid)
         {
             var product = context.Products
@@ -44,7 +45,7 @@ namespace ToysForKids.Controllers
                     }
                 });
             SaveCartSession(cart);
-            return RedirectToAction("Index", "Home");
+            return Ok();
         }
         private List<CartItem> GetCartItems()
         {
@@ -67,20 +68,29 @@ namespace ToysForKids.Controllers
             string jsoncart = JsonConvert.SerializeObject(listcart);
             session.SetString(CARTKEY, jsoncart);
         }
-        [Route("/removecart/{productid:int}", Name = "removecart")]
+        [Route("/removecart/{productid}")]
         public IActionResult RemoveCart([FromRoute] int productid)
         {
+            var cart = GetCartItems();
+            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            if (cartitem != null)
+            {
+                cart.Remove(cartitem);
+            }
 
-            // Xử lý xóa một mục của Cart ...
-            return View();
+            SaveCartSession(cart);
+            return Ok();
         }
-        [Route("/updatecart", Name = "updatecart")]
+        [Route("/updatecart/{productid}/{quantity}")]
         [HttpPost]
-        public IActionResult UpdateCart([FromForm] int productid, [FromForm] int quantity)
+        public IActionResult UpdateCart(int productid,long quantity)
         {
-            // Cập nhật Cart thay đổi số lượng quantity ...
-
-            return View();
+            var cart = GetCartItems();
+            var cartitem = cart.Find(p => p.product.ProductId == productid);
+            if (cartitem != null)
+                cartitem.quantity = quantity;
+            SaveCartSession(cart);
+            return Ok();
         }
         [Route("/cart", Name = "cart")]
         public IActionResult Cart()
@@ -92,6 +102,11 @@ namespace ToysForKids.Controllers
         {
             // Xử lý khi đặt hàng
             return View();
+        }
+        public IActionResult CartCount()
+        {
+            var cartCount = GetCartItems().Count.ToString();
+            return Json(cartCount);
         }
     }
 }

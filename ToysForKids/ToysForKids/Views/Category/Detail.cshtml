@@ -5,30 +5,33 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>SelectByCategory</h1>
-
-<div>
-    <h4>CategoryViewModel</h4>
-    <hr />
-    <dl class="row">
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.CategoryName)
-        </dt>
-        <dd class="col-sm-10">
-            @Html.DisplayFor(model => model.CategoryName)
-        </dd>
-        <dt class="col-sm-2">
-            @Html.DisplayNameFor(model => model.Products)
-        </dt>
-        <dd class="col-sm-10">
-            @foreach (var item in Model.Products)
-            {
-                <div>@item.ProductName</div>
-            }
-        </dd>
-    </dl>
-</div>
-<div>
-    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
-    <a asp-action="Index">Back to List</a>
-</div>
+<section class="product-page spad">
+    <div class="container">
+        <div class="row">
+            <div class="section-title">
+                <h4>@Model.CategoryName</h4>
+            </div>
+            <div class="row">
+                @foreach (var item in Model.Products)
+                {
+                    var status = item.UnitInStock > 0 ? "In Stock" : "Soldout";
+                    <div class="col-lg-4 col-md-6 col-sm-6">
+                        <div class="product__item">
+                            <div class="product__item__pic set-bg" data-setbg="../../images/Products/@item.FileAvatarName">
+                                <div class="ep">@status</div>
+                                <div class="comment"><i class="fa fa-coins"></i>   @item.UnitPrice</div>
+                                <a class="btn btn-secondary btn-sm view addcart" data-productid="@item.ProductId"><i class="fa fa-shopping-cart"></i>   ADD CART</a>
+                            </div>
+                            <div class="product__item__text">
+                                <h5><a asp-action="Detail" asp-controller="Product" asp-route-id="@item.ProductId">@item.ProductName</a></h5>
+                            </div>
+                        </div>
+                    </div>
+                }
+            </div>
+        </div>
+    </div>
+</section>
+@section Scripts{ 
+    <script src="~/js/scripts/cart.js"></script>
+}

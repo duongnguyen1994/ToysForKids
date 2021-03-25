@@ -20,9 +20,9 @@
                 <div class="header__nav">
                     <nav class="header__menu mobile-menu">
                         <ul>
-                            <li class="active"><a href="./index.html">Homepage</a></li>
+                            <li class="active"><a asp-action="Index" asp-controller="Home">Homepage</a></li>
                             <li>
-                                <a href="./categories.html">Categories <span class="arrow_carrot-down"></span></a>
+                                <a href="#">Categories <span class="arrow_carrot-down"></span></a>
                                 <ul class="dropdown">
                                     @foreach (var item in categories)
                                     {
@@ -30,7 +30,7 @@
                                     }
                                 </ul>
                             </li>
-                            <li><a href="./blog.html">Our Blog</a></li>
+                            <li><a href="#">Our Blog</a></li>
                             <li><a href="#">Contacts</a></li>
                         </ul>
                     </nav>
@@ -40,9 +40,9 @@
                 <nav class="header__menu mobile-menu">
                     <ul>
                         <li>
-                            <a asp-route="cart"><i class="fas fa-shopping-cart" style="color:white"></i></a>
+                            <a asp-route="cart" style="position:relative;"><i class="fas fa-shopping-cart" style="color:white"></i><span id="count" style="position:absolute;top:10px"></span></a>
                         </li>
-                        <li class="active"><a href="#" class="search-switch"><i class="fas fa-search"></i></a></li>
+                        @*<li class="active"><a href="#" class="search-switch"><i class="fas fa-search"></i></a></li>*@
                         <li>
                             @if (!User.Identity.IsAuthenticated)
                             {
@@ -78,12 +78,12 @@
 </header>
 <!-- Coursel End -->
 <!-- Search model Begin -->
-<div class="search-model">
+@*<div class="search-model">
     <div class="h-100 d-flex align-items-center justify-content-center">
         <div class="search-close-switch"><i class="icon_close"></i></div>
         <form class="search-model-form">
             <input type="text" id="search-input" placeholder="Search here.....">
         </form>
     </div>
-</div>
+</div>*@
 <!-- Search model end -->
