@@ -21,8 +21,6 @@ namespace ToysForKids.Models.ViewModels
         public long QuantityPerUnit { get; set; }
         [Display(Name = "Unit In Stock")]
         public long UnitInStock { get; set; }
-        [Display(Name = "Unit On Order")]
-        public long UnitOnOrder { get; set; }
         [Required]
         [MaxLength(500)]
         public string Description { get; set; }

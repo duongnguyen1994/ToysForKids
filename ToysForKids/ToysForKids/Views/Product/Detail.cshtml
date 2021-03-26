@@ -7,6 +7,7 @@
     var categories = categoryService.GetAll();
     var category = categories.Where(c => c.CategoryId == Model.CategoryId).FirstOrDefault();
     var products = productService.GetAll().Where(p => p.CategoryId == Model.CategoryId && p.ProductId != Model.ProductId);
+    var status = Model.UnitInStock > 0 ? "In Stock" : "Soldout";
     var newProducts = new Stack<ProductViewModel>(products);
 }
 
@@ -33,13 +34,20 @@
                                     <ul>
                                         <li><span>Category:</span>@category.CategoryName</li>
                                         <li><span>Price:</span> @Model.UnitPrice.ToString("n0") VND</li>
-                                        <li><span>Status:</span> @(Model.UnitInStock>0?"In Stock": "Soldout")</li>
+                                        <li><span>Status:</span> @status</li>
                                     </ul>
                                 </div>
                             </div>
                         </div>
                         <div class="anime__details__btn">
-                            <a data-productid="@Model.ProductId" class="btn btn-secondary btn-sm follow-btn addcart">Add Cart</a>
+                            @if (status == "In Stock")
+                            {
+                                <button data-productid="@Model.ProductId" class="btn btn-secondary btn-sm follow-btn addcart">Add Cart</button>
+                            }
+                            else
+                            {
+                                <button data-productid="@Model.ProductId" class="btn btn-secondary btn-sm follow-btn" disabled>Add Cart</button>
+                            }
                         </div>
                     </div>
                 </div>
@@ -54,18 +62,27 @@
                 </div>
                 <div class="col-lg-4 col-md-4 col-sm-4">
                     <div class="btn__all">
-                        <a href="#" class="primary-btn">View All <span class="arrow_right"></span></a>
+                        <a asp-action="Detail" asp-controller="Category" asp-route-id="@category.CategoryId" class="primary-btn">View All <span class="arrow_right"></span></a>
                     </div>
                 </div>
             </div>
             <div class="row">
                 @for (int i = 0; i < 3; i++)
                 {
+                    status = newProducts.Peek().UnitInStock > 0 ? "In Stock" : "Soldout";
                     <div class="col-lg-4 col-md-6 col-sm-6">
                         <div class="product__item">
                             <div class="product__item__pic set-bg" data-setbg="/images/Products/@newProducts.Peek().FileAvatarName">
+                                <div class="ep">@status</div>
                                 <div class="comment"><i class="fa fa-coins"></i>  @newProducts.Peek().UnitPrice.ToString("n0") VND</div>
-                                <a class="btn btn-secondary btn-sm view addcart" data-productid="@newProducts.Peek().ProductId"><i class="fa fa-shopping-cart"></i>  ADD CART</a>
+                                @if (status == "In Stock")
+                                {
+                                    <button class="btn btn-secondary btn-sm view addcart" data-productid="@newProducts.Peek().ProductId"><i class="fa fa-shopping-cart"></i>  ADD CART</button>
+                                }
+                                else
+                                {
+                                    <button class="btn btn-secondary btn-sm view" disabled><i class="fa fa-shopping-cart"></i>  ADD CART</button>
+                                }
                             </div>
                             <div class="product__item__text">
                                 <h5><a href="#">@newProducts.Pop().ProductName</a></h5>
@@ -77,27 +94,7 @@
         </div>
     </div>
 </section>
-@section Scripts{
-    @*<script>
-        $(document).ready(function () {
-            jQuery("#addcart").click(function () {
-                var productid = parseInt($(this).data('productid'));
-                $.ajax({
-                    url: '/Cart/AddToCart',
-                    dataType: 'json',
-                    type: 'GET',
-                    contentType: 'application/json',
-                    data: { "productid": productid },
-                    success: function (data) {
-                        alert(data);
-                    },
-                    error: function (xhr) {
-                        alert('error');
-                    }
-                });
-            });
-        });
-    </script>*@
+@section Scripts{  
 <script src="~/js/scripts/cart.js" asp-append-version="true"></script>
 }
 

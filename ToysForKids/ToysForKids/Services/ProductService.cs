@@ -27,7 +27,6 @@ namespace ToysForKids.Services
                     CategoryId = request.CategoryId,
                     Description = request.Description,
                     UnitPrice = request.UnitPrice,
-                    UnitOnOrder = 0,
                     FileAvatarName = request.FileAvatarName,
                     ProductName = request.ProductName,
                     QuantityPerUnit = request.QuantityPerUnit,
@@ -52,7 +51,6 @@ namespace ToysForKids.Services
                 editProduct.ProductName = request.ProductName;
                 editProduct.QuantityPerUnit = request.QuantityPerUnit;
                 editProduct.UnitInStock = request.UnitInStock;
-                editProduct.UnitOnOrder = request.UnitOnOrder;
                 editProduct.UnitPrice = request.UnitPrice;
                 context.Attach(editProduct);
                 context.Entry<Product>(editProduct).State = EntityState.Modified;
@@ -91,7 +89,6 @@ namespace ToysForKids.Services
                         ProductName = p.ProductName,
                         QuantityPerUnit = p.QuantityPerUnit,
                         UnitInStock = p.UnitInStock,
-                        UnitOnOrder = p.UnitOnOrder,
                         UnitPrice = p.UnitPrice
                     }).FirstOrDefault();
         }
@@ -108,7 +105,6 @@ namespace ToysForKids.Services
                         ProductName = p.ProductName,
                         QuantityPerUnit = p.QuantityPerUnit,
                         UnitInStock = p.UnitInStock,
-                        UnitOnOrder = p.UnitOnOrder,
                         UnitPrice = p.UnitPrice,
                         CategoryId = p.CategoryId
                     }).ToList();

@@ -82,12 +82,12 @@
                         <div class="bg-white py-2 collapse-inner rounded">
                             <h6 class="collapse-header">Pending</h6>
                             <a class="collapse-item" href="#">Orders</a>
-                            <a class="collapse-item" href="#">Orders Required</a>
                             <a class="collapse-item" href="#">Shipping</a>
                             <a class="collapse-item" href="#">Shipping Back</a>
                             <div class="collapse-divider"></div>
-                            <h6 class="collapse-header">Successed</h6>
-                            <a class="collapse-item" href="#">Orders Successed</a>
+                            <h6 class="collapse-header">All Orders</h6>
+                            <a class="collapse-item" href="#">Orders Accepted</a>
+                            <a class="collapse-item" asp-action="GetAllOrder" asp-controller="Order">All Orders</a>
                         </div>
                     </div>
                 </li>
@@ -125,6 +125,22 @@
                     <hr class="sidebar-divider d-none d-md-block">
                 </li>
 
+            }
+            else
+            {
+                <!-- Heading -->
+                <li class="nav-item active">
+                    <div class="sidebar-heading">
+                        Orders Service
+                    </div>
+                </li>
+                <!-- Nav Item - Pages Collapse Menu -->
+                <li class="nav-item">
+                    <a class="nav-link collapsed" asp-action="GetOrdersForCustomer" asp-controller="Order" asp-route-userId="@userId">
+                        <i class="fas fa-fw fa-shopping-cart"></i>
+                        <span>All Orders</span>
+                    </a>
+                </li>
             }
             <!-- Sidebar Toggler (Sidebar) -->
             <li class="text-center d-none d-md-inline">

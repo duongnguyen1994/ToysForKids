@@ -15,6 +15,8 @@
     <Compile Remove="Migrations\20210312091131_InitDb.Designer.cs" />
     <Compile Remove="Migrations\20210314075205_test.cs" />
     <Compile Remove="Migrations\20210314075205_test.Designer.cs" />
+    <Compile Remove="Migrations\20210325185602_alter_orderTable.cs" />
+    <Compile Remove="Migrations\20210325185602_alter_orderTable.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

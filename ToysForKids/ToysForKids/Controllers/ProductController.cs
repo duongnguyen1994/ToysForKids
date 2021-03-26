@@ -16,23 +16,24 @@ namespace ToysForKids.Controllers
     {
         private readonly IProductService productService;
         private readonly IWebHostEnvironment environment;
-        private readonly AppDbContext context;
 
-        public ProductController(IProductService productService, IWebHostEnvironment environment, AppDbContext context)
+        public ProductController(IProductService productService, IWebHostEnvironment environment)
         {
             this.productService = productService;
             this.environment = environment;
-            this.context = context;
         }
+        [Authorize(Roles = "Admin")]
         public IActionResult Index()
         {
             return View(productService.GetAll());
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Create()
         {
             return View();
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Create(ProductCreateViewModel model)
         {
@@ -75,11 +76,11 @@ namespace ToysForKids.Controllers
                 ProductName = product.ProductName,
                 QuantityPerUnit = product.QuantityPerUnit,
                 UnitInStock = product.UnitInStock,
-                UnitOnOrder = product.UnitOnOrder,
                 UnitPrice = product.UnitPrice
             };
             return View(model);
         }
+        [Authorize(Roles = "Admin")]
         [HttpGet]
         public IActionResult Edit(int id)
         {
@@ -93,11 +94,11 @@ namespace ToysForKids.Controllers
                 ProductName = product.ProductName,
                 QuantityPerUnit = product.QuantityPerUnit,
                 UnitInStock = product.UnitInStock,
-                UnitOnOrder = product.UnitOnOrder,
                 UnitPrice = product.UnitPrice
             };
             return View(model);
         }
+        [Authorize(Roles = "Admin")]
         [HttpPost]
         public async Task<IActionResult> Edit(ProductEditViewModel model)
         {
@@ -127,7 +128,6 @@ namespace ToysForKids.Controllers
                     ProductName = model.ProductName,
                     QuantityPerUnit = model.QuantityPerUnit,
                     UnitInStock = model.UnitInStock,
-                    UnitOnOrder = model.UnitOnOrder,
                     UnitPrice = model.UnitPrice,
                     FileAvatarName = existAvatar
                 };

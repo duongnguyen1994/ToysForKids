@@ -63,7 +63,6 @@ namespace ToysForKids.DbContexts
                     Description = "USA-World War 1",
                     QuantityPerUnit = 20,
                     UnitInStock = 20,
-                    UnitOnOrder = 0,
                     UnitPrice = 120000,
                     FileAvatarName = "M1917.jpg"
                 },
@@ -75,7 +74,6 @@ namespace ToysForKids.DbContexts
                     Description = "USA-World War 1",
                     QuantityPerUnit = 20,
                     UnitInStock = 20,
-                    UnitOnOrder = 0,
                     UnitPrice = 150000,
                     FileAvatarName = "M1918.jpg"
                 },
@@ -87,7 +85,6 @@ namespace ToysForKids.DbContexts
                     Description = "Made in China",
                     QuantityPerUnit = 20,
                     UnitInStock = 20,
-                    UnitOnOrder = 0,
                     UnitPrice = 120000,
                     FileAvatarName = "RADCLO_RC_Car.jpg"
                 },
@@ -99,7 +96,6 @@ namespace ToysForKids.DbContexts
                     Description = "USA",
                     QuantityPerUnit = 20,
                     UnitInStock = 20,
-                    UnitOnOrder = 0,
                     UnitPrice = 220000,
                     FileAvatarName = "Airforce 1.jpg"
                 });

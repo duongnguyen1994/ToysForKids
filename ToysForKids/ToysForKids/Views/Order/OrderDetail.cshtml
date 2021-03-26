@@ -1,0 +1,45 @@
+﻿@model IEnumerable<ToysForKids.Models.ViewModels.OrderDetailView>
+@inject AppDbContext context
+@{
+    ViewData["Title"] = "Order Detail";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+    var products = context.Products.ToList();
+    long totalAmout = 0;
+}
+
+<h1>Order Detail</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.ProductId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Quantity)
+            </th>
+            <th>
+                Total
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+    var product = products.Where(p => p.ProductId == item.ProductId).FirstOrDefault();
+    var total = product.UnitPrice * item.Quantity;
+    totalAmout += total;
+        <tr>
+            <td>
+                @product.ProductName
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Quantity)
+            </td>
+            <td>
+                @(total.ToString("n0")) VND
+            </td>
+        </tr>
+}
+    </tbody>
+    <tfoot class="d-flex flex-row-reverse">Total Amount: @totalAmout</tfoot>
+</table>

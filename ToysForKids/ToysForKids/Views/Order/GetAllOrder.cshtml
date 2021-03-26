@@ -1,0 +1,73 @@
+﻿@model IEnumerable<ToysForKids.Models.ViewModels.OrderViewModel>
+@inject UserManager<AppIdentityUser> userManager
+@{
+    ViewData["Title"] = "Orders";
+    Layout = "~/Views/Shared/_DashboardLayout.cshtml";
+}
+
+<h1>List of orders</h1>
+
+
+<table class="table table-hover" id="orders">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.OrderDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShippedDate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.ShippedAddress)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.UserId)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.TotalAmount)
+            </th>
+            <th>Action</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            var user = await userManager.FindByIdAsync(item.UserId);
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.OrderDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippedDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.ShippedAddress)
+                </td>
+                <td>
+                    @user.Fullname
+                </td>
+                <td>
+                    @item.TotalAmount.ToString("n0") VND
+                </td>
+                <td>
+                    <a class="btn btn-primary" asp-action="OrderDetail" asp-controller="Order" asp-route-orderId="@item.OrderId">Detail</a>
+                    @if (item.ShippedDate != null)
+                    {
+                        <button class="btn btn-primary" disabled>Accept</button>
+                    }
+                    else
+                    {
+                        <a class="btn btn-primary" asp-action="AcceptOrder" asp-controller="Order" asp-route-orderId="@item.OrderId">Accept</a>
+                    }
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            $('#orders').DataTable();
+        });
+    </script>
+}

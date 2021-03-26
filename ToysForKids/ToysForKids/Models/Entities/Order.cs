@@ -13,10 +13,8 @@ namespace ToysForKids.Models.Entities
         public int OrderId { get; set; }
         [Required]
         public DateTime OrderDate { get; set; }
-        [Required]
-        public DateTime ShippedDate { get; set; }
-        [Required]
-        public long Freight { get; set; }
+        public DateTime? ShippedDate { get; set; }
+        public int TotalAmount { get; set; }
         [Required]
         public string ShippedAddress { get; set; }
         public virtual ICollection<OrderDetail> OrderDetails { get; set; }

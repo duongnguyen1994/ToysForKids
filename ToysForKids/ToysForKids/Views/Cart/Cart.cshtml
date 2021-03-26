@@ -1,8 +1,14 @@
 ﻿@model List<ToysForKids.Models.CartItem>
-
+@inject UserManager<AppIdentityUser> userManager
 @{
     ViewData["Title"] = "Cart";
     Layout = "~/Views/Shared/_Layout.cshtml";
+    var userId = "userIs";
+    if (User.Identity.IsAuthenticated)
+    {
+        userId = userManager.GetUserId(User);
+    }
+
 }
 
 <h3>Cart</h3>
@@ -10,6 +16,7 @@
 @if (Model.Count > 0)
 {
     long totalAmount = 0;
+    long count = 0;
     <table class="table table-hover table-dark">
         <thead>
             <tr>
@@ -21,13 +28,14 @@
                 <th>Action</th>
             </tr>
         </thead>
-        <tbody>
+        <tbody class="tbody">
             @foreach (var item in Model)
             {
                 var cost = item.quantity * item.product.UnitPrice;
                 totalAmount += cost;
+                count++;
                 <tr>
-                    <td></td>
+                    <td>@count</td>
                     <td>
                         @item.product.ProductName
                     </td>
@@ -44,54 +52,83 @@
                         <button class="btn btn-success updatecartitem" data-productid="@item.product.ProductId">
                             Update
                         </button>
-                        <a asp-route="removecart" asp-route-productid="@item.product.ProductId"
-                           class="btn btn-danger">Xóa</a>
+                        <a data-productid="@item.product.ProductId" class="btn btn-danger removeproduct">Remove</a>
                     </td>
-                </tr>   
+                </tr>
+
             }
         </tbody>
-        <tfoot>
+        <tfoot id="tfoot">
             <tr>
                 <td colspan="4" class="text-right">Total Amount</td>
                 <td>@(totalAmount.ToString("n0"))</td>
-                <td><a asp-controller="Product" asp-action="Checkout" class="btn btn-success">Checkout</a></td>
+                <td><a class="btn btn-success checkout" data-userid="@userId" data-total="@totalAmount">Checkout</a></td>
             </tr>
         </tfoot>
     </table>
-    
+
 }
 else
 {
-    <p class="alert alert-danger">Empty</p>
+    <p class="alert alert-danger">Empty Cart</p>
 }
 @section Scripts {
-    <script>
-          $(document).ready(function () {
-              $(".updatecartitem").click(function (event) {
-                  event.preventDefault();
-                  var productid = $(this).attr("data-productid");
-                  var quantity = $(".quantity-" + productid).val();
-                  $.ajax({
-                      type: "POST",
-                      url:`/updatecart/${productid}/${quantity}`,
-                      data: {
-                          productid: productid,
-                          quantity:quantity
-                      },
-                      success: function () {
-                          bootbox.alert({
-                              message: "Update Successed!",
-                              callback: function () {
-                                  location.reload();
-                              }
-                          })                                                
-                      },
-                      error: function () {
-                          bootbox.alert("Update failed!");
-                      }
-                  });
-              });
-          });
-    </script>
-    <script src="~/js/scripts/cart.js"></script>
+
+    @if (User.Identity.IsAuthenticated)
+    {
+        <script>
+            $('.checkout').click(function (event) {               
+                event.preventDefault();
+                var userid = $(this).attr("data-userid");
+                var total = parseInt($(this).attr("data-total"));
+                bootbox.confirm({
+                    message: "Are you sure?",
+                    buttons: {
+                        confirm: {
+                            label: 'Yes',
+                            className: 'btn-success'
+                        },
+                        cancel: {
+                            label: 'No',
+                            className: 'btn-danger'
+                        }
+                    },
+                    callback: function () {
+                        $.ajax({
+                            url: '/Cart/Checkout',
+                            method: 'GET',
+                            success: function (result) {
+                                $.ajax({
+                                    url: `/Order/CreateOrder/${userid}/${result}/${total}`,
+                                    method: 'POST',
+                                    contentType: 'application/json',
+                                    dataType: 'json',
+                                    success: function () {
+                                        bootbox.alert({
+                                            message: "Thank you! Click Ok to continued shopping",
+                                            callback: function () {
+                                                location.reload();
+                                            }
+                                        })
+                                    },
+                                    error: function () {
+                                        bootbox.alert("Checkout failed! Please try again!");
+                                    }
+                                })
+                            }
+                        })
+                    }
+                });               
+            })
+        </script>
+    }
+    else
+    {
+        <script>
+            $('.checkout').click(function () {
+                window.location.href = '/Account/Login';
+            })
+        </script>
+    }
+    <script src="~/js/scripts/cart.js" asp-append-version="true"></script>
 }

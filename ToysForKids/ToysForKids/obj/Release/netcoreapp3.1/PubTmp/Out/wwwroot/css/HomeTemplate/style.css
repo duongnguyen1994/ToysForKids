@@ -964,7 +964,8 @@ ol {
 }
 
 .anime__details__pic {
-	height: 440px;
+	height: 350px;
+	width:280px;
 	border-radius: 5px;
 	position: relative;
 }

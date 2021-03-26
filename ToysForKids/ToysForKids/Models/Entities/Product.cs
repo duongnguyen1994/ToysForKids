@@ -20,8 +20,6 @@ namespace ToysForKids.Models.Entities
         [Required]
         public long UnitInStock { get; set; }
         [Required]
-        public long UnitOnOrder { get; set; }
-        [Required]
         [MaxLength(500)]
         public string Description { get; set; }
         [Required]

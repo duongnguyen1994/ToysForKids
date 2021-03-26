@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using System;
@@ -26,11 +27,16 @@ namespace ToysForKids.Controllers
                             .Where(p => p.ProductId == productid)
                             .FirstOrDefault();
             if (product == null)
-                return NotFound("Not found");          
+                return NotFound("Not found");
             var cart = GetCartItems();
             var caritem = cart.Find(p => p.product.ProductId == productid);
             if (caritem != null)
-                caritem.quantity++;
+            {
+                if (caritem.quantity < product.UnitInStock)
+                    caritem.quantity++;
+                else
+                    return NotFound("Not found");
+            }                
             else
                 cart.Add(new CartItem()
                 {
@@ -68,7 +74,7 @@ namespace ToysForKids.Controllers
             string jsoncart = JsonConvert.SerializeObject(listcart);
             session.SetString(CARTKEY, jsoncart);
         }
-        [Route("/removecart/{productid}")]
+        [Route("/removecart/{productid}", Name= "removecart")]
         public IActionResult RemoveCart([FromRoute] int productid)
         {
             var cart = GetCartItems();
@@ -87,6 +93,8 @@ namespace ToysForKids.Controllers
         {
             var cart = GetCartItems();
             var cartitem = cart.Find(p => p.product.ProductId == productid);
+            if (cartitem.product.UnitInStock < quantity)
+                return NotFound("Out of stock!");
             if (cartitem != null)
                 cartitem.quantity = quantity;
             SaveCartSession(cart);
@@ -97,12 +105,19 @@ namespace ToysForKids.Controllers
         {
             return View(GetCartItems());
         }
-        [Route("/checkout")]
+        [Route("/Cart/GetCart")]
+        public IActionResult GetCart()
+        {           
+            return Ok(GetCartItems());
+        }
+        [Authorize]
+        [Route("/Cart/Checkout")]
         public IActionResult CheckOut()
         {
-            // Xử lý khi đặt hàng
-            return View();
-        }
+            string jsonResult = JsonConvert.SerializeObject(GetCartItems());
+            ClearCart();
+            return Ok(jsonResult);
+        }      
         public IActionResult CartCount()
         {
             var cartCount = GetCartItems().Count.ToString();

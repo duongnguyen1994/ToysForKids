@@ -271,9 +271,6 @@ namespace ToysForKids.Migrations
                         .HasColumnType("int")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<long>("Freight")
-                        .HasColumnType("bigint");
-
                     b.Property<DateTime>("OrderDate")
                         .HasColumnType("datetime2");
 
@@ -281,8 +278,11 @@ namespace ToysForKids.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("ShippedDate")
+                    b.Property<DateTime?>("ShippedDate")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("TotalAmount")
+                        .HasColumnType("int");
 
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
@@ -350,9 +350,6 @@ namespace ToysForKids.Migrations
                     b.Property<long>("UnitInStock")
                         .HasColumnType("bigint");
 
-                    b.Property<long>("UnitOnOrder")
-                        .HasColumnType("bigint");
-
                     b.Property<long>("UnitPrice")
                         .HasColumnType("bigint");
 
@@ -372,7 +369,6 @@ namespace ToysForKids.Migrations
                             ProductName = "M1917",
                             QuantityPerUnit = 20L,
                             UnitInStock = 20L,
-                            UnitOnOrder = 0L,
                             UnitPrice = 120000L
                         },
                         new
@@ -384,7 +380,6 @@ namespace ToysForKids.Migrations
                             ProductName = "M1918",
                             QuantityPerUnit = 20L,
                             UnitInStock = 20L,
-                            UnitOnOrder = 0L,
                             UnitPrice = 150000L
                         },
                         new
@@ -396,7 +391,6 @@ namespace ToysForKids.Migrations
                             ProductName = "RADCLO RC Car 2.4Ghz 1/20",
                             QuantityPerUnit = 20L,
                             UnitInStock = 20L,
-                            UnitOnOrder = 0L,
                             UnitPrice = 120000L
                         },
                         new
@@ -408,7 +402,6 @@ namespace ToysForKids.Migrations
                             ProductName = "Airforce 1",
                             QuantityPerUnit = 20L,
                             UnitInStock = 20L,
-                            UnitOnOrder = 0L,
                             UnitPrice = 220000L
                         });
                 });
